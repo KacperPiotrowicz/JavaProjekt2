@@ -1,6 +1,8 @@
 
 package main;
 
+import java.math.BigInteger;
+
 public class Calculations
 {
 	
@@ -10,7 +12,8 @@ public class Calculations
 		
         boolean isPrimary[] = new boolean[limit]; 
   
-        for (int i = 0; i < limit; i++) isPrimary[i] = false; 
+        for (int i = 0; i < limit; i++) isPrimary[i] = false;
+     
   
         for (int x = 1; x * x < limit; x++)
         { 
@@ -35,13 +38,24 @@ public class Calculations
                 for (int i = r * r; i < limit; i += r * r) isPrimary[i] = false; 
             } 
         } 
+        
+        isPrimary[3] = true;
+        
+        int ID = (Integer.parseInt(connection.getLastID()) + 1);
+        int lastNumber = Integer.parseInt(connection.getLastPrimaryNumber());
   
-        for (int a = 5; a < limit; a++) 
+        for (int a = 3; a < limit; a++) 
             {
         		if (isPrimary[a]) 
         		{
-        			System.out.println(a); 
-        			connection.insertNextPrimaryNumber(a);
+        			System.out.print("\n" + a);
+        			
+        			if(a > lastNumber)
+        			{
+        				System.out.print(" (dodano do bazy danych).");
+        				connection.insertNextPrimaryNumber(ID, BigInteger.valueOf(a));
+            			ID++;
+        			}
         		}
             }
                
